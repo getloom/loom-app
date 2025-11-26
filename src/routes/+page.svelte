@@ -1,5 +1,5 @@
 <script>
-    import {Button} from 'svelte-ux'
+	import { Button } from 'svelte-ux';
 </script>
 
 <h1>Welcome to SvelteKit</h1>
