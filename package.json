@@ -41,5 +41,7 @@
 		"vitest": "^4.0.10",
 		"vitest-browser-svelte": "^2.0.1"
 	},
-	"dependencies": {}
+	"dependencies": {
+		"keycloak-js": "^26.2.1"
+	}
 }
