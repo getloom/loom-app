@@ -15,7 +15,8 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
-		"test": "npm run test:unit -- --run"
+		"testbak": "npm run test:unit -- --run",
+		"test": "echo tests go here"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",

@@ -43,6 +43,8 @@ Loom utilizes Docker, docker-compose, & the OCI format for production deployment
 
 Once you've built your image, you can use the following command to test a full production stack locally.
 
+We recommend following this guide for getting set up on Docker: https://linuxiac.com/how-to-install-docker-on-linux-mint-21/
+
 ```
 docker compose up
 ```
