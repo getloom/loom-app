@@ -1,5 +1,6 @@
 services:
   app:
+    image: "ghcr.io/getloom/loom-app:main"
     build:
       context: .
       dockerfile: Dockerfile
