@@ -44,6 +44,6 @@ jobs:
       #     POSTGRES_HOST: localhost
       #     POSTGRES_DB: loom
       #     POSTGRES_PASSWORD: password
-      #     PGUSER: postgres      
+      #     PGUSER: postgres
       - run: npm run test
-      - run: npm run build      
+      - run: npm run build
