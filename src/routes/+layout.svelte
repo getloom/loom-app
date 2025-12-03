@@ -6,26 +6,37 @@
 	import Keycloak, { type KeycloakInitOptions } from "keycloak-js";
 	import { browser } from '$app/environment';
 
-  // Keycloak
-  let instance = {
-    url: "http://127.0.0.1:8080",
-    realm: "test",
-    clientId: "loom-app",
-  };
+	// Keycloak
+	let instance = {
+		url: "http://127.0.0.1:8080",
+		realm: "test",
+		clientId: "loom-app",
+	};
 
-  let keycloak = new Keycloak(instance);
-  let initOptions: KeycloakInitOptions = { onLoad: "login-required" };
+	//TODO
+	//key off keycloak results such that initially there is a pending state that displays a spinner
+	//then either there's a redirect to log, a success response (in which case proceed as normal) or a fale
+	//in which case we need to display an error to the user like "auth server unavailable"
+	let keycloak = new Keycloak(instance);
+	let initOptions: KeycloakInitOptions = { onLoad: "login-required" };
 
-  if (browser) {
-	keycloak
-		.init(initOptions)
-		.then(function (authenticated: any) {
-		console.info("Authenticated");
-		console.log(keycloak)
-		})
-		.catch(function () {
-		console.error("failed to initialize");
-		});
+	console.log("are we authenticated?")
+	console.log(keycloak.authenticated)
+	console.log(keycloak)
+
+  	if (browser) {
+		console.log("in browser, checking keycloak");
+		const result = keycloak
+			.init(initOptions)
+			.then(function (authenticated: any) {
+			console.info("Authenticated");
+			console.log(authenticated);
+			console.log(keycloak)
+			})
+			.catch(function (error: any) {
+			console.error("failed to initialize");
+			console.error(error);
+			});
 	}
 
 	let { children } = $props();

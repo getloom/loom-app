@@ -5,7 +5,8 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
-		"compose": "docker compose up",		
+		"compose": "docker compose -f compose.yaml -f compose.prod.yaml up",
+		"compose:dev": "docker compose -f compose.yaml -f compose.dev.yaml up",
 		"build": "vite build",
 		"build:image": "docker build -t loom-app .",
 		"preview": "vite preview",
@@ -16,7 +17,7 @@
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
 		"testbak": "npm run test:unit -- --run",
-		"test": "echo tests go here"
+		"test": "echo tests go here"		
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",

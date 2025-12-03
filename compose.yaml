@@ -1,11 +1,4 @@
 services:
-  app:
-    image: "ghcr.io/getloom/loom-app:main"
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
   keycloak:
     image: "quay.io/keycloak/keycloak:26.0"
     environment:
