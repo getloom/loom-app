@@ -16,6 +16,8 @@ npm run dev -- --open
 
 You'll also need to make sure you have docker (or other containerization tools) are installed on you system.
 
+The front end is [Svelte-UX](https://svelte-ux.techniq.dev/)
+
 ## Building
 
 To create a production version of your app:
