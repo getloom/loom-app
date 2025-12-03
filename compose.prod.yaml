@@ -1,5 +1,5 @@
 services:
   loom:
-    image: "ghcr.io/getloom/loom-app:main"
+    image: 'ghcr.io/getloom/loom-app:main'
     ports:
-      - "3000:3000"
+      - '3000:3000'
