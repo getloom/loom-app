@@ -6,17 +6,15 @@
 	import { browser } from '$app/environment';
 	import { ProgressCircle } from 'svelte-ux';
 
+	import { env } from '$env/dynamic/public';
+
 	// Keycloak
 	let instance = {
-		url: 'http://127.0.0.1:8080',
-		realm: 'test',
-		clientId: 'loom-app'
+		url: env.PUBLIC_AUTH_URL,
+		realm: env.PUBLIC_AUTH_REALM,
+		clientId: env.PUBLIC_AUTH_CLIENT_ID
 	};
 
-	//TODO
-	//key off keycloak results such that initially there is a pending state that displays a spinner
-	//then either there's a redirect to log, a success response (in which case proceed as normal) or a fale
-	//in which case we need to display an error to the user like "auth server unavailable"
 	let keycloak = new Keycloak(instance);
 	let initOptions: KeycloakInitOptions = { onLoad: 'login-required' };
 
