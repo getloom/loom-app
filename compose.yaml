@@ -4,6 +4,7 @@ services:
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HOSTNAME_DEBUG: 'true'
     ports:
       - '8080:8080'
     command: ['start-dev']
