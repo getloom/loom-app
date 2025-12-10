@@ -17,6 +17,13 @@ You'll also need to make sure you have docker (or other containerization tools) 
 
 The front end is [Svelte-UX](https://svelte-ux.techniq.dev/)
 
+To test locally with a running Keycloak instance, use
+
+```sh
+docker compose up keycloak
+```
+
+
 ## Building
 
 To create a production version of your app:
@@ -37,6 +44,12 @@ And then test it runs with
 
 ```sh
 docker run -p 3000:3000 loom-app
+```
+
+To test that it runs properly alongside keycloak you can use
+
+```sh
+docker compose up
 ```
 
 ## Production

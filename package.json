@@ -4,9 +4,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
-		"compose": "docker compose -f compose.yaml -f compose.prod.yaml up",
-		"compose:dev": "docker compose -f compose.yaml -f compose.dev.yaml up",
+		"dev": "vite dev",				
 		"build": "vite build",
 		"build:image": "docker build -t loom-app .",
 		"preview": "vite preview",

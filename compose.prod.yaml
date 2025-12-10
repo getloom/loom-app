@@ -1,7 +1,0 @@
-services:
-  loom:
-    image: 'ghcr.io/getloom/loom-app:main'
-    ports:
-      - '3030:3000'
-    env_file:
-      - .env
