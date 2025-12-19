@@ -6,7 +6,9 @@
 	import { browser } from '$app/environment';
 	import { ProgressCircle } from 'svelte-ux';
 
-	import { env } from '$env/dynamic/public';
+	import { env } from '$env/dynamic/public';	
+
+	let {data, children } = $props();	
 
 	// Keycloak
 	let instance = {
@@ -19,6 +21,8 @@
 	let initOptions: KeycloakInitOptions = { onLoad: 'login-required' };
 
 	let displaySpinner = $state(keycloak.authenticated);
+
+	//TODO figure out how to do server side data fetching for layout
 
 	if (browser) {
 		console.log('in browser, checking keycloak');
@@ -34,7 +38,7 @@
 			});
 	}
 
-	let { children } = $props();
+	
 </script>
 
 {#if !displaySpinner}
@@ -43,7 +47,11 @@
 	</div>
 {:else}
 	<AppLayout>
-		<svelte:fragment slot="nav">Here's the sidebar</svelte:fragment>
+		<svelte:fragment slot="nav">
+			{#each data.spaces as {name, icon}}
+				<div>{icon} -- {name}</div>
+			{/each}
+		</svelte:fragment>		
 
 		<AppBar title="Loom" class="bg-primary text-primary-content">
 			<div slot="actions">This is where the login would go</div>

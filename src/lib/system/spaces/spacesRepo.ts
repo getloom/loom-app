@@ -28,6 +28,16 @@ export class SpaceRepo extends Repo {
 		return data[0];
 	}
 
+    async getAll(): Promise<Space[]> {
+        log.debug(`[getAll] Spaces`);
+		const data = await this.sql<Space[]>`
+			SELECT space_id, name, icon, view, created, updated
+			FROM spaces;
+		`;
+		log.debug('[getAll] Spaces result', data);
+		return data;   
+    }
+
     async update(
 		space_id: number,
 		partial: Partial<Pick<Space, 'name' | 'icon' | 'view'>>,
