@@ -1,4 +1,4 @@
-import { defaultPostgresOptions } from "$lib/db/postgres";
+import { defaultPostgresOptions } from "$lib/db/postgres.server";
 import { SpaceRepo } from "$lib/system/spaces/spacesRepo";
 import postgres from "postgres";
 
