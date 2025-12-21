@@ -4,7 +4,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",				
+		"dev": "vite dev",
 		"build": "vite build",
 		"build:image": "docker build -t loom-app .",
 		"preview": "vite preview",
@@ -44,6 +44,8 @@
 		"vitest-browser-svelte": "^2.0.1"
 	},
 	"dependencies": {
-		"keycloak-js": "^26.2.1"
+		"db-migrate": "^0.11.14",
+		"keycloak-js": "^26.2.1",
+		"postgres": "^3.4.7"
 	}
 }
