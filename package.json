@@ -15,7 +15,8 @@
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
 		"testbak": "npm run test:unit -- --run",
-		"test": "echo tests go here"
+		"test": "echo tests go here",
+		"db:migrate": "tsx scripts/db/tasks.ts migrate"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.0",
@@ -37,6 +38,7 @@
 		"svelte-check": "^4.3.4",
 		"svelte-ux": "^2.0.0-next.21",
 		"tailwindcss": "^4.1.17",
+		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.47.0",
 		"vite": "^7.2.2",
@@ -46,6 +48,7 @@
 	"dependencies": {
 		"db-migrate": "^0.11.14",
 		"keycloak-js": "^26.2.1",
+		"ley": "^0.8.1",
 		"postgres": "^3.4.7"
 	}
 }
