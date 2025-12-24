@@ -1,5 +1,5 @@
 import { Repo } from "$lib/db/repo";
-import type { Space } from "$lib/system/spaces/spaceServices";
+import type { Space } from "$lib/system/spaces/spacesService";
 
 //TODO replace with a proper logger system
 const log = console;
