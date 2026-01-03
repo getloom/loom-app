@@ -7,6 +7,7 @@
 	import { ProgressCircle } from 'svelte-ux';
 
 	import { env } from '$env/dynamic/public';	
+	import SpaceNav from '$lib/ux/SpaceNav.svelte';
 
 	let {data, children } = $props();	
 
@@ -47,20 +48,10 @@
 	</div>
 {:else}
 	<AppLayout>
-		<!-- TODO all this junk inside the svelte:fragment needs to be extracted-->
 		<svelte:fragment slot="nav">
-			<!-- TODO this button needs to trigger a modal form for submission-->
-			 <!-- TODO add server side api routes for interacting with the SpacesService-->
-			<div class="nav-head">
-				<button type="button">➕</button>
-			</div>
-			{#if data.spaces.length == 0}
-				<div> No Spaces Found</div>
-			{/if}
-			{#each data.spaces as {name, icon}}
-				<div>{icon} -- {name}</div>
-			{/each}
-		</svelte:fragment>		
+			<SpaceNav spaces={data.spaces} />
+		</svelte:fragment>
+
 
 		<AppBar title="Loom" class="bg-primary text-primary-content">
 			<div slot="actions">This is where the login would go</div>
