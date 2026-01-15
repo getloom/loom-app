@@ -21,8 +21,7 @@
 	let keycloak = new Keycloak(instance);
 	let initOptions: KeycloakInitOptions = { onLoad: 'login-required' };
 
-	let displaySpinner = $state(keycloak.authenticated);
-
+	let authorized = $state(keycloak.authenticated);
 	//TODO figure out how to do server side data fetching for layout
 
 	if (browser) {
@@ -30,7 +29,7 @@
 		const result = keycloak
 			.init(initOptions)
 			.then(function () {
-				displaySpinner = true;
+				authorized = true;
 			})
 			.catch(function (error: any) {
 				console.error('failed to initialize');
@@ -42,7 +41,7 @@
 	
 </script>
 
-{#if !displaySpinner}
+{#if !authorized}
 	<div class="center">
 		<ProgressCircle size={100} />
 	</div>
@@ -68,5 +67,8 @@
 		display: block;
 		text-align: center;
 		margin-top: 20%;
+	}
+	aside {
+		background-color: rebeccapurple;
 	}
 </style>

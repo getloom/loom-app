@@ -16,8 +16,10 @@
         <Dialog bind:open={openAsync} {loading} persistent={loading}>
         <div slot="title">Creating new space</div>
         <div>
-            <form style="padding:20px">
-                <input type="text" id="name" name="name" required minlength="4" maxlength="8" size="10" />
+            
+            <form class="name">
+                <label class="label" for="name">Name:</label>
+                <input class="input" type="text" id="name" name="name" required minlength="4" maxlength="8" size="10" />
             </form>
         </div>
         <div slot="actions">
@@ -47,3 +49,15 @@
 	{#each spaces as {name, icon}}
 		<div>{icon} -- {name}</div>
 	{/each}
+
+    <style>
+        .name {
+            padding:20px;
+        }
+        .input {
+            background-color: color-mix(in oklab, var(--color-surface-content) 5%, transparent);
+        }
+        .label {
+            margin-right: 1rem;
+        }
+    </style>
