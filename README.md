@@ -13,14 +13,23 @@ npm run dev
 npm run dev -- --open
 ```
 
-You'll also need to make sure you have docker (or other containerization tools) are installed on you system.
+Make a copy of the .env.example file to have local env variables setup. The defaults should work with the docker-compose stack.
+
+Run
+```sh
+npm run db:migrate
+```
+to get your DB schema up to date.
+
+
+You'll also want to make sure you have docker (or other containerization tools) are installed on you system.
 
 The front end is [Svelte-UX](https://svelte-ux.techniq.dev/)
 
-To test locally with a running Keycloak instance, use
+To test locally with a running Keycloak instance & Postgres DB, use
 
 ```sh
-docker compose up keycloak
+docker compose up
 ```
 
 

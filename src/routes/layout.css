@@ -21,3 +21,7 @@ Dark mode is targeted using with .dark class on :root/<html>
 		--color-surface-300: var(--color-black);
 	}
 }
+
+.nav {
+	background-color: color-mix(in oklab, var(--color-surface-content) 5%, transparent);
+}
