@@ -5,8 +5,12 @@ export type AccountId = number;
  */
 export interface Account {
 	account_id: AccountId;
-	username: string;
-	password: string;
+	username: string;	
 	created: Date;
 	updated: Date | null;	
+}
+
+export interface NewAccount {
+	username: string;
+	clear_password: string;
 }

@@ -1,6 +1,7 @@
 import { Repo } from '$lib/db/repo';
 import type { Account } from '$lib/system/accounts/accountsService';
 import { createSalt, hashPassword } from '$lib/util/crypto.server';
+import type { ServerAccount } from '$lib/system/accounts/accountsService.server';
 
 //TODO replace with a proper logger system
 const log = console;
@@ -15,7 +16,7 @@ export class AccountRepo extends Repo {
 		const data = await this.sql<Account[]>`
             INSERT INTO accounts (username, password, salt) VALUES (
                 ${username}, ${password}, ${salt}
-            ) RETURNING account_id
+            ) RETURNING account_id, username, created, updated
         `;
 		return data[0];
 	}
@@ -30,6 +31,32 @@ export class AccountRepo extends Repo {
 		return data[0];
 	}
 
+	async findByName(username: string): Promise<Account | undefined> {
+		log.debug(`[findByname] ${username}`);
+		const data = await this.sql<Account[]>`
+			SELECT account_id, username, created, updated
+			FROM accounts WHERE username=${username}
+		`;
+		log.debug('[findByName] result', data);
+		return data[0];
+	}
+
+	//Don't allow logs in this function
+	async verifyLogin(username: string, clear_password: string): Promise<boolean> {
+		const data = await this.sql<ServerAccount[]>`
+			SELECT account_id, username, password, salt, created, updated
+			FROM accounts WHERE username=${username}
+		`;
+		if (!data.count) return false;
+		const hash = hashPassword(clear_password, data[0].salt);
+		if (data[0].password === hash) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 	async getAll(): Promise<Account[]> {
 		log.debug(`[getAll] Accounts`);
 		const data = await this.sql<Account[]>`
@@ -42,7 +69,7 @@ export class AccountRepo extends Repo {
 
 	async update(
 		account_id: number,
-		partial: Partial<Pick<Account, 'username' | 'password'>>
+		partial: Partial<Pick<Account, 'username' >>
 	): Promise<Account> {
 		log.debug(`updating data for account: ${account_id}`);
 		const data = await this.sql<Account[]>`
