@@ -1,4 +1,4 @@
-//import { destroy } from "./destroy";
+import { destroy } from "./destroy";
 import { migrate } from "./migrate";
 // import { seedDB } from "./seed";
 // import { create } from "./create";
@@ -8,10 +8,10 @@ import { migrate } from "./migrate";
 const task = process.argv[2];
 
 switch(task){
-    // case 'destroy':
-    //     console.log("destroy selected");
-    //     await destroy();
-    //     break;
+    case 'destroy':
+        console.log("destroy selected");
+        await destroy();
+        break;
     case 'migrate':
         console.log("migrate selected");
         await migrate();

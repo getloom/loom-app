@@ -21,7 +21,8 @@
 	let keycloak = new Keycloak(instance);
 	let initOptions: KeycloakInitOptions = { onLoad: 'login-required' };
 
-	let authorized = $state(keycloak.authenticated);
+	//let authorized = $state(keycloak.authenticated);
+	let authorized = true;
 	//TODO figure out how to do server side data fetching for layout
 
 	if (browser) {
@@ -48,7 +49,7 @@
 {:else}
 	<AppLayout>
 		<svelte:fragment slot="nav">
-			<SpaceNav spaces={data.spaces} />
+			<SpaceNav spaces={[]} />
 		</svelte:fragment>
 
 

@@ -1,8 +1,8 @@
 import { defaultPostgresOptions } from "$lib/db/postgres.server";
-import { SpaceRepo } from "$lib/system/spaces/spacesRepo";
+import { AccountRepo } from "$lib/system/accounts/accountsRepo";
 import postgres from "postgres";
 
 export async function load() {
-	const spaces = await new SpaceRepo(postgres(defaultPostgresOptions)).getAll();    
-    return {spaces: spaces};
+    const users = await new AccountRepo(postgres(defaultPostgresOptions)).getAll();    
+    return {users: users};
 }
