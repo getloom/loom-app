@@ -14,8 +14,7 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
-		"testbak": "npm run test:unit -- --run",
-		"test": "echo tests go here",
+		"test": "npm run test:unit -- --run",		
 		"db:destroy": "tsx scripts/db/tasks.ts destroy",
 		"db:migrate": "tsx scripts/db/tasks.ts migrate"
 	},

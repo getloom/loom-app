@@ -3,6 +3,7 @@
 	import { Button } from 'svelte-ux';
 
 	let {data } = $props()
+	let users = data?.users ? data.users : []
 </script>
 
 <h1>Welcome to SvelteKit</h1>
@@ -10,9 +11,9 @@
 
 <Button variant="outline">Click me!</Button>
 
-	{#if data.users.length === 0}
+	{#if users.length === 0}
 		<div>no users found</div>
 	{/if}
-	{#each data.users as {username, created}}
+	{#each users as {username, created}}
 		<div>{username} -- {created}</div>
 	{/each}
