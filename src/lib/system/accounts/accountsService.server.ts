@@ -28,18 +28,22 @@ export interface Message {
 //TODO replace with a proper logger system
 const log = console;
 
-export async function signin(username: string, clear_password: string): Promise<Response<ErrorMessage | Message>> {
+//TODO create a Service class to extend
+export class AccountService {
+	accountRepo: AccountRepo;
+
+	constructor(accountRepo?: AccountRepo){
+		this.accountRepo = accountRepo || new AccountRepo(postgres(defaultPostgresOptions));
+	}
+
+	async signin(username: string, clear_password: string): Promise<Response<ErrorMessage | Message>> {
     // Validate input
 	if (!username || !clear_password) {
 		return {data:{ error: 'Username and password are required' }, code:{ status: 400 }};
 	}
 
-	try {
-		// Create connection to database
-		const sql = postgres(defaultPostgresOptions);
-		const accountRepo = new AccountRepo(sql);
-
-		const result = await accountRepo.verifyLogin(username, clear_password);
+	try {				
+		const result = await this.accountRepo.verifyLogin(username, clear_password);
 
 		if (result) {
 			return {data:{ message: 'Login successful' }, code:{ status: 200 }};
@@ -51,3 +55,5 @@ export async function signin(username: string, clear_password: string): Promise<
 		return {data:{ error: 'Failed to validate credentials' }, code:{ status: 500 }};
 	}
 }
+}
+
