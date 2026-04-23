@@ -6,9 +6,9 @@ import type { RequestEvent } from '@sveltejs/kit';
 const log = console;
 
 export async function POST({ request }: RequestEvent) {
-	const { username, password } = await request.json();
+	const { username, clear_password } = await request.json();
 
-	const {data, code} = await new AccountService().signin(username, password);
+	const {data, code} = await new AccountService().signin(username, clear_password);
 
 	return json(data, code)
 }
