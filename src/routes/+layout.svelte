@@ -6,8 +6,7 @@
 	import { browser } from '$app/environment';
 	import { ProgressCircle } from 'svelte-ux';
 
-	import { env } from '$env/dynamic/public';	
-	import SpaceNav from '$lib/ux/SpaceNav.svelte';
+	import { env } from '$env/dynamic/public';		
 
 	let {data, children } = $props();	
 
@@ -21,8 +20,8 @@
 	let keycloak = new Keycloak(instance);
 	let initOptions: KeycloakInitOptions = { onLoad: 'login-required' };
 
-	//let authorized = $state(keycloak.authenticated);
-	let authorized = true;
+	let authorized = $state(keycloak.authenticated);
+	//let authorized = true;
 	//TODO figure out how to do server side data fetching for layout
 
 	if (browser) {
@@ -49,7 +48,9 @@
 {:else}
 	<AppLayout>
 		<svelte:fragment slot="nav">
-			<SpaceNav spaces={[]} />
+			<div>A -- ALPHA</div>
+			<div>B -- BETA</div>
+			<div>C -- CHARLIE</div>
 		</svelte:fragment>
 
 
