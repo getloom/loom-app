@@ -6,9 +6,9 @@ import { AccountService } from '$lib/system/accounts/accountsService.server';
 const log = console;
 
 export async function POST({ request }: RequestEvent) {
-	const { username, clear_password } = await request.json();
+	const { username, password } = await request.json();
 	
-	const {data, code} = await new AccountService().signup(username, clear_password);
+	const {data, code} = await new AccountService().signup(username, password);
 	
 	return json(data, code)
 }
