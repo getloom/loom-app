@@ -4,30 +4,22 @@
 
 	let username = '';
 	let password = '';
-	let confirmPassword = '';
 	let error = '';
 	let loading = false;
 
-	const handleInput = (e: any, field: 'username' | 'password' | 'confirmPassword') => {		
+	const handleInput = (e: any, field: 'username' | 'password') => {		
 		const target = e.detail;
 		if (field === 'username') {
 			username = target.value;
 		} else if (field === 'password') {
 			password = target.value;
-		} else if (field === 'confirmPassword') {
-			confirmPassword = target.value;
 		}
 	};
 
-	const handleSubmit = async () => {		
+	const handleSubmit = async () => {				
 		// Basic validation
-		if (!username.trim() || !password || !confirmPassword) {
+		if (!username.trim() || !password) {
 			error = 'Please fill in all fields';
-			return;
-		}
-
-		if (password !== confirmPassword) {
-			error = 'Passwords do not match';
 			return;
 		}
 
@@ -35,7 +27,7 @@
 		error = '';
 
 		try {
-			const response = await fetch('/api/accounts/signup', {
+			const response = await fetch('/api/accounts/signin', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -45,14 +37,14 @@
 					password
 				})
 			});
-			
+
 			const result = await response.json();
 
 			if (response.ok) {
-				// Redirect to login or dashboard on success
+				// Redirect to home or dashboard on successful login
 				goto('/');
 			} else {
-				error = result.error || 'Signup failed';
+				error = result.error || 'Login failed';
 			}
 		} catch (err) {
 			error = 'Network error. Please try again.';
@@ -63,7 +55,7 @@
 </script>
 
 <div class="max-w-md mx-auto p-6">
-	<h1 class="text-2xl font-bold mb-6">Create Account</h1>
+	<h1 class="text-2xl font-bold mb-6">Sign In</h1>
 
 	{#if error}
 		<div class="mb-4 p-3 bg-red-100 text-red-700 rounded">
@@ -82,7 +74,7 @@
 			/>
 		</div>
 
-		<div class="mb-4">
+		<div class="mb-6">
 			<TextField
 				label="Password"
 				value={password}
@@ -92,18 +84,8 @@
 			/>
 		</div>
 
-		<div class="mb-6">
-			<TextField
-				label="Confirm Password"
-				value={confirmPassword}
-				on:change={(e) => handleInput(e, 'confirmPassword')}				
-				type="password"
-				required
-			/>
-		</div>
-
 		<Button type="submit" disabled={loading}>
-			{loading ? 'Creating Account...' : 'Sign Up'}
+			{loading ? 'Signing In...' : 'Sign In'}
 		</Button>
 	</form>
 </div>
