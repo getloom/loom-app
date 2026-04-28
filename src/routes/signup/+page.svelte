@@ -24,7 +24,7 @@
 	const handleSubmit = async () => {
 		console.log("submitting")
 		// Basic validation
-		if (!username.trim() || !password) {
+		if (!username.trim() || !password || !confirmPassword) {
 			error = 'Please fill in all fields';
 			return;
 		}
@@ -48,7 +48,7 @@
 					password
 				})
 			});
-
+			
 			const result = await response.json();
 
 			if (response.ok) {
