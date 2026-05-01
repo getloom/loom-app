@@ -19,28 +19,30 @@ describe('signing in', () => {
 
 	it('validates on successful login', async () => {
 		// Setup mock to return true for successful login
-		sinon.stub(repo,'verifyLogin').resolves(true);        
+		const account: Account = {account_id: '1', username: 'username', created: new Date(), updated: null}
+		sinon.stub(repo,'verifyLogin').resolves(account);        
 		
 		const result = await service.signin('username', 'password');
 
-		expect(result).toEqual({ data: { message: 'Login successful' }, code: { status: 200 } });		
+		expect(result).toEqual({ok:true, data: account, code: 200 });		
 	});
 
 	it('fails with bad credentials', async () => {
 		// Setup mock to return false for failed login (user not found)
-		sinon.stub(repo,'verifyLogin').resolves(false);                
+		sinon.stub(repo,'verifyLogin').resolves(undefined);                
 		
 		const result = await service.signin('userrname', 'password');
 
-		expect(result).toEqual({ data: { error: 'Invalid credentials' }, code: { status: 401 } });
+		expect(result).toEqual({ok:false, error: 'Invalid credentials' , code: 401 });
 	});
 
 	it('handles validation errors', async () => {		
 		const result = await service.signin('', 'password');
 
 		expect(result).toEqual({
-			data: { error: 'Username and password are required' },
-			code: { status: 400 }
+			ok: false,
+			error: 'Username and password are required',
+			code: 400
 		});
 	});
 
@@ -51,8 +53,9 @@ describe('signing in', () => {
 		const result = await service.signin('username', 'password');
 	
 		expect(result).toEqual({
-			data: { error: 'Failed to validate credentials' },
-			code: { status: 500 }
+			ok: false,
+			error: 'Failed to validate credentials' ,
+			code: 500
 		});
 	})
 });
@@ -72,31 +75,32 @@ describe('signing up', () => {
 
 	it('creates an account', async () => {
 		// Setup mock to return nothing for a name, than an account for creation
-        const account: Account = {account_id: 1, username: 'username', created: new Date(), updated: null}
+        const account: Account = {account_id: '1', username: 'username', created: new Date(), updated: null}
 		sinon.stub(repo,'findByName').resolves(undefined);
         sinon.stub(repo,'create').resolves(account);
 		
 		const result = await service.signup('username', 'password');
 
-		expect(result).toEqual({ data: account, code: { status: 201 } });		
+		expect(result).toEqual({ok: true, data: account, code: 201 });		
 	});
 
 	it('fails with duplicate name', async () => {
 		// Setup mock to return false for failed login (user not found)
-        const account: Account = {account_id: 1, username: 'userrname', created: new Date(), updated: null}
+        const account: Account = {account_id: '1', username: 'userrname', created: new Date(), updated: null}
 		sinon.stub(repo,'findByName').resolves(account);        
 		
 		const result = await service.signup('userrname', 'password');
 
-		expect(result).toEqual({ data: { error: 'Username already exists' }, code: { status: 409 } });
+		expect(result).toEqual({ok: false, error: 'Username already exists', code: 409 });
 	});
 
 	it('handles validation errors', async () => {		
 		const result = await service.signup('', 'password');
 
 		expect(result).toEqual({
-			data: { error: 'Username and password are required' },
-			code: { status: 400 }
+			ok:false,
+			error: 'Username and password are required',
+			code: 400
 		});
 	});
 
@@ -106,8 +110,9 @@ describe('signing up', () => {
         const result = await service.signup('username', 'password');
 
         expect(result).toEqual({
-			data: { error: 'Failed to create account' },
-			code: { status: 500 }
+			ok:false,
+			error: 'Failed to create account',
+			code: 500
 		});
     })
 });
