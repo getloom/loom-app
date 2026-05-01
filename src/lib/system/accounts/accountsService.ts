@@ -1,4 +1,4 @@
-export type AccountId = number;
+export type AccountId = string;
 
 /**
  * <Vocab name="Account" />s are the representation of users within the Loom framework.

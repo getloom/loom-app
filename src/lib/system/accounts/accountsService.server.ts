@@ -12,17 +12,16 @@ export interface ServerAccount {
     updated: Date | null;	
 }
 
-export interface Response<T> {
-    data: T,
-    code: {status: number}
+export interface Result<T> {
+    ok: true
+	data: T,	
+    code: number
 }
 
-export interface ErrorMessage {
-    error: string
-}
-
-export interface Message {
-    message: string
+export interface Error {
+	ok: false
+	error: string
+	code: number
 }
 
 //TODO replace with a proper logger system
@@ -36,46 +35,46 @@ export class AccountService {
 		this.accountRepo = accountRepo || new AccountRepo(postgres(defaultPostgresOptions));
 	}
 
-	async signin(username: string, clear_password: string): Promise<Response<ErrorMessage | Message>> {
+	async signin(username: string, clear_password: string): Promise<Result<Account> | Error> {
 		// Validate input
 		if (!username || !clear_password) {
-			return {data:{ error: 'Username and password are required' }, code:{ status: 400 }};
+			return {ok: false, error: 'Username and password are required' , code: 400 };
 		}
 
 		try {				
 			const result = await this.accountRepo.verifyLogin(username, clear_password);
 
-			if (result) {
-				return {data:{ message: 'Login successful' }, code:{ status: 200 }};
-			} else {
-				return {data:{ error: 'Invalid credentials' }, code: { status: 401 }};
+			if (!result) {							
+				return {ok: false, error: 'Invalid credentials' , code: 401 };				
 			}
+
+			return {ok: true, data: result, code: 200};			
 		} catch (error) {
 			log.error('Error validating credentials:', error);
-			return {data:{ error: 'Failed to validate credentials' }, code:{ status: 500 }};
+			return {ok: false, error: 'Failed to validate credentials', code: 500 };
 		}
 	}
 
-	async signup(username: string, clear_password: string): Promise<Response<ErrorMessage | Message | Account>> {
-			// Validate input
+	async signup(username: string, clear_password: string): Promise<Result<Account> | Error> {
+		// Validate input
 		if (!username || !clear_password) {
-			return {data:{ error: 'Username and password are required' },code: { status: 400 }};
+			return {ok:false, error: 'Username and password are required', code: 400 };
 		}
 
 		try {			
 			const existingAccount = await this.accountRepo.findByName(username);
 
 			if (existingAccount) {
-				return {data:{ error: 'Username already exists' }, code:{ status: 409 }};
+				return {ok: false, error: 'Username already exists', code: 409 };
 			}
 
 			// Create new account with hashed password
 			const account = await this.accountRepo.create(username, clear_password);
 
-			return {data: account, code:{ status: 201 }};
+			return {ok: true, data: account, code: 201 };
 		} catch (error) {
 			log.error('Error creating account:', error);
-			return {data:{ error: 'Failed to create account' }, code: { status: 500 }};
+			return {ok: false, error: 'Failed to create account' ,code: 500 };
 		}
 	}
 }

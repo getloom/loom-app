@@ -49,7 +49,7 @@
 			const result = await response.json();
 
 			if (response.ok) {
-				// Redirect to login or dashboard on success
+				// Redirect to home page
 				goto('/');
 			} else {
 				error = result.error || 'Signup failed';
@@ -63,7 +63,7 @@
 </script>
 
 <div class="max-w-md mx-auto p-6">
-	<h1 class="text-2xl font-bold mb-6">Create Account</h1>
+	<h1 class="text-2xl font-bold mb-6">Sign Up For Account</h1>
 
 	{#if error}
 		<div class="mb-4 p-3 bg-red-100 text-red-700 rounded">
@@ -104,6 +104,10 @@
 
 		<Button type="submit" disabled={loading}>
 			{loading ? 'Creating Account...' : 'Sign Up'}
+		</Button>
+
+		<Button on:click={() => goto("/signin")}>
+			{loading ? 'Creating Account...' : 'Sign In'}
 		</Button>
 	</form>
 </div>
