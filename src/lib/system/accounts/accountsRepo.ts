@@ -9,6 +9,7 @@ const log = console;
 export class AccountRepo extends Repo {
 	/**
 	 * Creates a new account with a salted & hashed password
+	 * Don't allow logs in this function
 	 */
 	async create(username: string, clear_password: string): Promise<Account> {
 		const salt = createSalt();
@@ -42,17 +43,17 @@ export class AccountRepo extends Repo {
 	}
 
 	//Don't allow logs in this function
-	async verifyLogin(username: string, clear_password: string): Promise<boolean> {
+	async verifyLogin(username: string, clear_password: string): Promise<Account | undefined> {
 		const data = await this.sql<ServerAccount[]>`
 			SELECT account_id, username, password, salt, created, updated
 			FROM accounts WHERE username=${username}
 		`;
-		if (!data.count) return false;
+		if (!data.count) return undefined;
 		const hash = hashPassword(clear_password, data[0].salt);
 		if (data[0].password === hash) {
-			return true;
+			return data[0];
 		} else {
-			return false;
+			return undefined;
 		}
 
 	}

@@ -3,6 +3,8 @@
 	import { Button } from 'svelte-ux';
 
 	let {data } = $props()
+
+	//need to figure out how to make this a store/rune/etc/reactive/etc.
 	let users = data?.users ? data.users : []
 </script>
 

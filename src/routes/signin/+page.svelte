@@ -87,5 +87,9 @@
 		<Button type="submit" disabled={loading}>
 			{loading ? 'Signing In...' : 'Sign In'}
 		</Button>
+
+		<Button on:click={() => goto("/signup")}>
+			{loading ? 'Creating Account...' : 'Sign Up'}
+		</Button>
 	</form>
 </div>
