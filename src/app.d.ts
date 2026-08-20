@@ -7,7 +7,8 @@ declare global {
 	namespace App {
 		// interface Error {}
 		 interface Locals {
-			account_id: AccountId
+			account_id?: AccountId;
+			keycloakSubject?: string;
 		 }
 		// interface PageData {}
 		// interface PageState {}
