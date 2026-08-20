@@ -2,75 +2,25 @@
 	import './layout.css';
 	import { AppBar, AppLayout } from 'svelte-ux';
 
-	import Keycloak, { type KeycloakInitOptions } from 'keycloak-js';
-	import { browser } from '$app/environment';
-	import { ProgressCircle } from 'svelte-ux';
-
-	import { env } from '$env/dynamic/public';		
-
-	let {data, children } = $props();	
-
-	// Keycloak
-	let instance = {
-		url: env.PUBLIC_AUTH_URL,
-		realm: env.PUBLIC_AUTH_REALM,
-		clientId: env.PUBLIC_AUTH_CLIENT_ID
-	};
-
-	let keycloak = new Keycloak(instance);
-	let initOptions: KeycloakInitOptions = { onLoad: 'login-required' };
-
-	//let authorized = $state(keycloak.authenticated);
-	let authorized = true;
-	//TODO figure out how to do server side data fetching for layout
-
-	if (browser) {
-		console.log('in browser, checking keycloak');
-		const result = keycloak
-			.init(initOptions)
-			.then(function () {
-				authorized = true;
-			})
-			.catch(function (error: any) {
-				console.error('failed to initialize');
-				console.error(error);
-				//TODO make the page display a proper error message
-			});
-	}
-
-	
+	let { data, children } = $props();
 </script>
 
-{#if !authorized}
-	<div class="center">
-		<ProgressCircle size={100} />
-	</div>
-{:else}
-	<AppLayout>
-		<svelte:fragment slot="nav">
-			<div>A -- ALPHA</div>
-			<div>B -- BETA</div>
-			<div>C -- CHARLIE</div>
-		</svelte:fragment>
+<AppLayout>
+	<svelte:fragment slot="nav">
+		<div>A -- ALPHA</div>
+		<div>B -- BETA</div>
+		<div>C -- CHARLIE</div>
+	</svelte:fragment>
 
+	<AppBar title="Loom" class="bg-primary text-primary-content">
+		<div slot="actions">
+			{#if data.isAuthenticated}
+				<a href="/auth/logout">Sign out</a>
+			{/if}
+		</div>
+	</AppBar>
 
-		<AppBar title="Loom" class="bg-primary text-primary-content">
-			<div slot="actions">This is where the login would go</div>
-		</AppBar>
-
-		<main>
-			{@render children()}
-		</main>
-	</AppLayout>
-{/if}
-
-<style>
-	.center {
-		display: block;
-		text-align: center;
-		margin-top: 20%;
-	}
-	aside {
-		background-color: rebeccapurple;
-	}
-</style>
+	<main>
+		{@render children()}
+	</main>
+</AppLayout>

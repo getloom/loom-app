@@ -91,5 +91,7 @@
 		<Button on:click={() => goto("/signup")}>
 			{loading ? 'Creating Account...' : 'Sign Up'}
 		</Button>
+
+		<Button on:click={() => goto('/auth/keycloak/login')}>Sign in with Keycloak</Button>
 	</form>
 </div>
