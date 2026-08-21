@@ -1,7 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import * as client from 'openid-client';
 import { getOidcConfig } from '$lib/system/auth/oidcClient.server';
-import { COOKIE_SESSION_NAME } from '../../../hooks.server';
 import {
 	readKeycloakSession,
 	KEYCLOAK_SESSION_COOKIE_NAME
@@ -12,7 +11,6 @@ export async function GET({ cookies, url }: RequestEvent) {
 	const kcCookie = cookies.get(KEYCLOAK_SESSION_COOKIE_NAME);
 	const kcSession = kcCookie ? await readKeycloakSession(kcCookie) : null;
 
-	cookies.delete(COOKIE_SESSION_NAME, { path: '/' });
 	cookies.delete(KEYCLOAK_SESSION_COOKIE_NAME, { path: '/' });
 
 	if (kcSession) {
