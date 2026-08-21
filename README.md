@@ -1,6 +1,8 @@
 # Loom-app
 
-This is the core application that drives Loom's programmable social platform.
+This is the core template that drives Loom's programmable social platform applications.
+
+It provides the core styling & OAuth2 integrations, as well as a DB migrations framework.
 
 ## Developing
 
