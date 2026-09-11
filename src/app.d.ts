@@ -6,6 +6,7 @@ declare global {
 		// interface Error {}
 		 interface Locals {
 			keycloakSubject?: string;
+			roles?: string[];
 		 }
 		// interface PageData {}
 		// interface PageState {}
