@@ -6,6 +6,17 @@ It provides the core styling & OAuth2 integrations, as well as a DB migrations f
 
 ## Developing
 
+Before you start developing, you'll first need to make sure you have a keycloak instance & postgres to work with locally.
+
+You'll need to make sure you have docker (or other containerization tools) are installed on you system.
+
+To test locally with a running Keycloak instance & Postgres DB, use
+
+```sh
+docker compose up -d
+```
+Then follow the instructions below for setting up Keycloak sign-in locally
+
 Once you've cloned the project and installed dependencies with `npm install` start a development server:
 
 ```sh
@@ -24,27 +35,35 @@ npm run db:migrate
 to get your DB schema up to date.
 
 
-You'll also want to make sure you have docker (or other containerization tools) are installed on you system.
 
-The front end is [Svelte-UX](https://svelte-ux.techniq.dev/)
-
-To test locally with a running Keycloak instance & Postgres DB, use
-
-```sh
-docker compose up
-```
 
 ### Setting up Keycloak sign-in locally
 
-Local username/password sign-in (`/signin`, `/signup`) works out of the box once Postgres is up and migrated. To also exercise "Sign in with Keycloak", you need to create a realm and client by hand — there's no automated realm import yet:
+To use "Sign in with Keycloak", you need to create import a realm and create a client by hand
 
 1. `docker compose up`, then open the Keycloak admin console at `http://localhost:8080` and log in with `admin`/`admin`.
-2. Create a realm matching your `.env`'s `OIDC_URL` (the default `.env.example` expects a realm named `loom`, i.e. `OIDC_URL=".../realms/loom"`).
+2. Use these commands at dir root to set the default "loom" realm & roles 
+```
+TOKEN=$(curl -sf -X POST \
+  "http://localhost:8080/realms/master/protocol/openid-connect/token" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "client_id=admin-cli&username=admin&password=admin&grant_type=password" \
+  | jq -r '.access_token')
+
+curl -sf -X POST \
+  "http://localhost:8080/admin/realms" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "@/realm-export.json"
+
+```
 3. In that realm, create a confidential client with the client ID matching `OIDC_CLIENTID` (`loom-app` by default), with:
    - **Valid redirect URI**: `http://localhost:5173/auth/keycloak/callback` (the SvelteKit dev server's default port)
    - **Valid post logout redirect URI**: `http://localhost:5173/signin`
+   - A dedicated scope that maps realm roles
 4. Copy the client's secret (Keycloak admin console → client → Credentials tab) into `OIDC_SECRET` in your `.env`.
 5. Set `COOKIE_KEYS` in your `.env` to three `__`-delimited secrets in the form `latest_secret_<random>__older_secret_<random>__oldest_secret_<random>` — these back the encrypted Keycloak session cookie. See `docs/authentication.md` for details.
+6. Configure an original user in the keycloak loom realm as well for initial admin testing purposes.
 
 
 ## Building

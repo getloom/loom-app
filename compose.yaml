@@ -1,23 +1,45 @@
 services:
   keycloak:
     image: 'quay.io/keycloak/keycloak:26.0'
+    container_name: keycloak-loom-dev
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_DB: 'postgres'
+      KC_DB_USERNAME: 'postgres'
+      KC_DB_PASSWORD: 'password'
+      KC_DB_URL_HOST: 'auth-keycloak-postgres'
     ports:
       - '8080:8080'
     command: ['start-dev']
-  postgres:
+  auth-keycloak-postgres:
     image: postgres:18
-    container_name: postgres
+    container_name: auth-keycloak-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: keycloak
+    ports:
+      - "5432:5432"
+    volumes:
+      - keycloak_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d keycloak"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+  postgres-loom:
+    image: postgres:18
+    container_name: postgres-loom-app
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: loom
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - loom_data:/var/lib/postgresql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d loom"]
       interval: 10s
@@ -26,4 +48,5 @@ services:
     restart: unless-stopped
 
 volumes:
-  postgres_data:
+  keycloak_data:
+  loom_data:
