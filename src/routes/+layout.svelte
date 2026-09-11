@@ -1,8 +1,15 @@
 <script lang="ts">
 	import './layout.css';
-	import { AppBar, AppLayout } from 'svelte-ux';
+	import { AppBar, AppLayout, settings } from 'svelte-ux';
+	import { mdScreen } from '@layerstack/svelte-stores';
 
 	let { data, children } = $props();
+
+	const { showDrawer } = settings();
+
+	$effect(() => {
+		$showDrawer = $mdScreen;
+	});
 </script>
 
 {#if data.isAuthenticated}
