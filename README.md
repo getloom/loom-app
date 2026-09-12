@@ -39,31 +39,12 @@ to get your DB schema up to date.
 
 ### Setting up Keycloak sign-in locally
 
-To use "Sign in with Keycloak", you need to create import a realm and create a client by hand
+`docker compose up -d` brings up a fully configured Keycloak instance — the `loom` realm, the `loom-app` confidential client, and a seed user are created automatically by the `ghcr.io/getloom/keycloak-dev` image.
 
-1. `docker compose up`, then open the Keycloak admin console at `http://localhost:8080` and log in with `admin`/`admin`.
-2. Use these commands at dir root to set the default "loom" realm & roles 
-```
-TOKEN=$(curl -sf -X POST \
-  "http://localhost:8080/realms/master/protocol/openid-connect/token" \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "client_id=admin-cli&username=admin&password=admin&grant_type=password" \
-  | jq -r '.access_token')
-
-curl -sf -X POST \
-  "http://localhost:8080/admin/realms" \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d "@realm-export.json"
-
-```
-3. In that realm, create a confidential client with the client ID matching `OIDC_CLIENTID` (`loom-app` by default), with:
-   - **Valid redirect URI**: `http://localhost:5173/auth/keycloak/callback` (the SvelteKit dev server's default port)
-   - **Valid post logout redirect URI**: `http://localhost:5173/signin`
-   - A dedicated scope that maps realm roles
-4. Copy the client's secret (Keycloak admin console → client → Credentials tab) into `OIDC_SECRET` in your `.env`.
-5. Set `COOKIE_KEYS` in your `.env` to three `__`-delimited secrets in the form `latest_secret_<random>__older_secret_<random>__oldest_secret_<random>` — these back the encrypted Keycloak session cookie. See `docs/authentication.md` for details.
-6. Configure an original user in the keycloak loom realm as well for initial admin testing purposes.
+1. `docker compose up -d`
+2. Copy `.env.example` to `.env` — the defaults already match the seeded client's secret.
+3. Sign in with the seed account: username `founder`, password `founder` (has the `founder` realm role, used for initial admin testing).
+4. To customize the realm name, client, redirect URIs, or seed user (e.g. for a different `getloom` project), set the corresponding environment variables on the `keycloak` service in `compose.yaml` — see `docker/keycloak-dev/README.md` for the full list.
 
 
 ## Building

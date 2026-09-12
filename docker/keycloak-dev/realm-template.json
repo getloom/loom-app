@@ -1797,7 +1797,11 @@
     {
       "username": "${DEV_USER_USERNAME}",
       "enabled": true,
+      "email": "${DEV_USER_USERNAME}@example.com",
       "emailVerified": true,
+      "firstName": "${DEV_USER_USERNAME}",
+      "lastName": "Dev",
+      "requiredActions": [],
       "credentials": [
         { "type": "password", "value": "${DEV_USER_PASSWORD}", "temporary": false }
       ],
