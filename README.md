@@ -54,7 +54,7 @@ curl -sf -X POST \
   "http://localhost:8080/admin/realms" \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
-  -d "@/realm-export.json"
+  -d "@realm-export.json"
 
 ```
 3. In that realm, create a confidential client with the client ID matching `OIDC_CLIENTID` (`loom-app` by default), with:
